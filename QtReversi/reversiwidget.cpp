@@ -13,9 +13,9 @@ ReversiWidget::ReversiWidget(QWidget *parent)
 	auto* gridLayout = new QGridLayout();
 	gridLayout->setSpacing(0);
 
-	for (auto row = 0; row < 8; ++row)
+	for (auto row = 0; row < mCells.size(); ++row)
 	{
-		for (auto column = 0; column < 8; ++column)
+		for (auto column = 0; column < mCells[row].size(); ++column)
 		{
 			auto* cell = new Cell(row, column);
 			connect(cell, SIGNAL(clicked(Cell*)),
@@ -44,9 +44,9 @@ ReversiWidget::~ReversiWidget()
 void ReversiWidget::cellClicked(Cell* cell)
 {
 	auto* piece = cell->piece();
-	if (piece != nullptr)
+	if (piece == nullptr)
 	{
-		piece->reverse();
+		cell->setPiece(new Piece(mCurrentSide));
+		mCurrentSide = Piece::nextSide(mCurrentSide);
 	}
 }
-

@@ -2,6 +2,7 @@
 
 #include <QWidget>
 #include <QVector>
+#include <array>
 #include "Cell.h"
 
 class ReversiWidget : public QWidget
@@ -16,6 +17,6 @@ private slots:
 	void cellClicked(Cell* cell);
 
 private:
-	Cell* mCells[8][8];
+	std::array<std::array<Cell*, 8>, 8> mCells;
 	Piece::Side mCurrentSide = Piece::Side::Dark;
 };
