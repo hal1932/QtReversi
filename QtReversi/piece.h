@@ -10,12 +10,15 @@ public:
 	{
 		Dark = -1,
 		Light = 1,
+
+		Empty = 0,
+		Wall = 2,
 	};
 
 	explicit Piece(Side side, QWidget *parent = 0);
 
 	Side side() { return mSide;}
-	void reverse();
+	void setSide(Side side);
 
 	static Side nextSide(Side side);
 

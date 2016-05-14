@@ -17,15 +17,17 @@ Cell::Cell(int row, int column, QWidget* parent)
 	setLayout(mLayout);
 }
 
-void Cell::setPiece(Piece* piece)
+void Cell::placePiece(Piece::Side pieceSide)
 {
 	if (mPiece != nullptr)
 	{
-		mLayout->removeWidget(mPiece);
+		mPiece->setSide(pieceSide);
 	}
-	mLayout->addWidget(piece);
-
-	mPiece = piece;
+	else
+	{
+		mPiece = new Piece(pieceSide);
+		mLayout->addWidget(mPiece);
+	}
 }
 
 void Cell::paintEvent(QPaintEvent*)

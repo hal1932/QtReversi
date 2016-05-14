@@ -7,9 +7,9 @@ Piece::Piece(Side side, QWidget *parent)
 	  mSide(side)
 { }
 
-void Piece::reverse()
+void Piece::setSide(Side side)
 {
-	mSide = nextSide(mSide);
+	mSide = side;
 	update(); // repaintのリクエストを投げる
 }
 

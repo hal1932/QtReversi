@@ -11,7 +11,10 @@ public:
 	explicit Cell(int row, int column, QWidget *parent = 0);
 
 	Piece* piece() { return mPiece; }
-	void setPiece(Piece* piece);
+	void placePiece(Piece::Side pieceSide);
+
+	int row() { return mRow; }
+	int column() { return mColumn; }
 
 signals:
 	// signalの実装はQtが自動生成するから宣言だけにしておく
