@@ -1,47 +1,43 @@
-﻿#include "cell.h"
+﻿#include "Cell.h"
 
 #include <QDebug>
 #include <QPainter>
 #include <QMouseEvent>
 
-Cell::Cell(int row, int column, QWidget *parent)
-    : QWidget(parent),
-      m_row(row),
-      m_column(column)
+Cell::Cell(int row, int column, QWidget* parent)
+	: QWidget(parent),
+	  mRow(row),
+	  mColumn(column)
 {
-    setAutoFillBackground(true);
-    setPalette(Qt::green);
+	setAutoFillBackground(true);
+	setPalette(Qt::green);
 
-    m_layout = new QHBoxLayout();
-    m_layout->setMargin(2);
-    setLayout(m_layout);
+	mLayout = new QHBoxLayout();
+	mLayout->setMargin(2);
+	setLayout(mLayout);
 }
 
-void Cell::setPiece(Piece *piece)
+void Cell::setPiece(Piece* piece)
 {
-    if (m_piece != nullptr)
-    {
-        m_layout->removeWidget(m_piece);
-    }
-    m_layout->addWidget(piece);
+	if (mPiece != nullptr)
+	{
+		mLayout->removeWidget(mPiece);
+	}
+	mLayout->addWidget(piece);
 
-    m_piece = piece;
+	mPiece = piece;
 }
 
-void Cell::paintEvent(QPaintEvent *)
+void Cell::paintEvent(QPaintEvent*)
 {
-    QPainter painter(this);
-    painter.drawRect(rect());
+	QPainter painter(this);
+	painter.drawRect(rect());
 }
 
-void Cell::mousePressEvent(QMouseEvent *)
+void Cell::mouseReleaseEvent(QMouseEvent* evt)
 {
-}
+	if (!rect().contains(evt->pos()))
+		return;
 
-void Cell::mouseReleaseEvent(QMouseEvent* event)
-{
-    if (!rect().contains(event->pos()))
-        return;
-
-    emit clicked(m_row, m_column);
+	emit clicked(this);
 }

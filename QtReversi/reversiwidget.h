@@ -1,23 +1,21 @@
-﻿#ifndef REVERSIWIDGET_H
-#define REVERSIWIDGET_H
+﻿#pragma once
 
-#include "cell.h"
 #include <QWidget>
 #include <QVector>
+#include "Cell.h"
 
 class ReversiWidget : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 
 public:
-    ReversiWidget(QWidget *parent = 0);
-    ~ReversiWidget();
+	ReversiWidget(QWidget *parent = 0);
+	~ReversiWidget();
 
 private slots:
-    void cellClicked(int row, int column);
+	void cellClicked(Cell* cell);
 
 private:
-    QVector<QVector<Cell*>> m_cells;
+	Cell* mCells[8][8];
+	Piece::Side mCurrentSide = Piece::Side::Dark;
 };
-
-#endif // REVERSIWIDGET_H

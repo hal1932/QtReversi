@@ -1,54 +1,52 @@
-﻿#include "reversiwidget.h"
+﻿#include "ReversiWidget.h"
 
 #include <QGridLayout>
 #include <QDebug>
 
 ReversiWidget::ReversiWidget(QWidget *parent)
-    : QWidget(parent)
+	: QWidget(parent)
 {
-    setAutoFillBackground(true);
-    setPalette(Qt::blue);
-    resize(500, 500);
+	setAutoFillBackground(true);
+	setPalette(Qt::blue);
+	resize(500, 500);
 
-    auto* gridLayout = new QGridLayout();
-    gridLayout->setSpacing(0);
+	auto* gridLayout = new QGridLayout();
+	gridLayout->setSpacing(0);
 
-    m_cells.resize(8);
-    for (auto row = 0; row < 8; ++row)
-    {
-        m_cells[row].resize(8);
-        for (auto column = 0; column < 8; ++column)
-        {
-            auto* cell = new Cell(row, column);
-            connect(cell, SIGNAL(clicked(int,int)),
-                    this, SLOT(cellClicked(int,int)));
-            gridLayout->addWidget(cell, row, column);
-            m_cells[row][column] = cell;
-        }
-    }
+	for (auto row = 0; row < 8; ++row)
+	{
+		for (auto column = 0; column < 8; ++column)
+		{
+			auto* cell = new Cell(row, column);
+			connect(cell, SIGNAL(clicked(Cell*)),
+					this, SLOT(cellClicked(Cell*)));
+			gridLayout->addWidget(cell, row, column);
+			mCells[row][column] = cell;
+		}
+	}
 
-    setLayout(gridLayout);
+	setLayout(gridLayout);
 
-    m_cells[3][3]->setPiece(new Piece(Piece::LightSide));
-    m_cells[4][4]->setPiece(new Piece(Piece::LightSide));
+	mCells[3][3]->setPiece(new Piece(Piece::Side::Light));
+	mCells[4][4]->setPiece(new Piece(Piece::Side::Light));
 
-    m_cells[4][3]->setPiece(new Piece(Piece::DarkSide));
-    m_cells[3][4]->setPiece(new Piece(Piece::DarkSide));
+	mCells[4][3]->setPiece(new Piece(Piece::Side::Dark));
+	mCells[3][4]->setPiece(new Piece(Piece::Side::Dark));
 }
 
 ReversiWidget::~ReversiWidget()
 {
-    // ツリー破棄時にQtが勝手に破棄してるから子供のdeleteはしない
-    // 破棄時にはdestroyedシグナルがくる
-    // すぐに破棄してほしくないときはdeleteLater()を呼んでおくとイベントループを抜けるまで遅延してくれる
+	// ツリー破棄時にQtが勝手に破棄してるから子供のdeleteはしない
+	// 破棄時にはdestroyedシグナルがくる
+	// すぐに破棄してほしくないときはdeleteLater()を呼んでおくとイベントループを抜けるまで遅延してくれる
 }
 
-void ReversiWidget::cellClicked(int row, int column)
+void ReversiWidget::cellClicked(Cell* cell)
 {
-    auto piece = m_cells[row][column]->piece();
-    if (piece != nullptr)
-    {
-        piece->reverse();
-    }
+	auto* piece = cell->piece();
+	if (piece != nullptr)
+	{
+		piece->reverse();
+	}
 }
 

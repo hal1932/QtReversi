@@ -1,32 +1,31 @@
-﻿#ifndef PIECE_H
-#define PIECE_H
+﻿#pragma once
 
 #include <QWidget>
 
 class Piece : public QWidget
 {
-    Q_OBJECT
+	Q_OBJECT
 public:
-    enum Side
-    {
-        DarkSide = -1,
-        LightSide = 1,
-    };
+	enum class Side : char
+	{
+		Dark = -1,
+		Light = 1,
+	};
 
-    explicit Piece(Side side, QWidget *parent = 0);
+	explicit Piece(Side side, QWidget *parent = 0);
 
-    Side side() { return m_side;}
-    void reverse();
+	Side side() { return mSide;}
+	void reverse();
+
+	static Side nextSide(Side side);
 
 signals:
 
 public slots:
 
 protected:
-    void paintEvent(QPaintEvent *);
+	void paintEvent(QPaintEvent *);
 
 private:
-    Side m_side = DarkSide;
+	Side mSide = Side::Dark;
 };
-
-#endif // PIECE_H
