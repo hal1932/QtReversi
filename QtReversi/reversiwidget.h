@@ -17,9 +17,6 @@ public:
 	void initialize();
 	void finalize();
 
-private slots:
-	void cellClicked(Cell* cell);
-
 private:
 	std::array<std::array<Cell*, 8>, 8> mCells;
 	Board mBoard;
@@ -27,6 +24,7 @@ private:
 	QLabel* mResultLabel = nullptr;
 
 private:
+	void onCellClicked_(Cell* cell);
 	void updateCells_(const Board& board);
 	void showResult_(Piece::Side winner);
 

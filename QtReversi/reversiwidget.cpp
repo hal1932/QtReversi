@@ -18,8 +18,7 @@ ReversiWidget::ReversiWidget(QWidget *parent)
 		for (auto column = 0; column < mCells[row].size(); ++column)
 		{
 			auto* cell = new Cell(row, column);
-			connect(cell, SIGNAL(clicked(Cell*)),
-				this, SLOT(cellClicked(Cell*)));
+			connect(cell, &Cell::clicked, [this](Cell* cell) { onCellClicked_(cell); });
 			gridLayout->addWidget(cell, row, column);
 			mCells[row][column] = cell;
 		}
@@ -56,7 +55,7 @@ ReversiWidget::~ReversiWidget()
 	// すぐに破棄してほしくないときはdeleteLater()を呼んでおくとイベントループを抜けるまで遅延してくれる
 }
 
-void ReversiWidget::cellClicked(Cell* cell)
+void ReversiWidget::onCellClicked_(Cell* cell)
 {
 	const auto r = cell->row() + 1;
 	const auto c = cell->column() + 1;
